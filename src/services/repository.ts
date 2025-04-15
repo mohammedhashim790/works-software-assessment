@@ -12,7 +12,7 @@ export abstract class Repository<T> {
 
     abstract update(obj: T): Promise<T>;
 
-    abstract delete(obj: T): Promise<T>;
+    abstract delete(obj: string): Promise<boolean>;
 
     abstract get(id: ObjectId): Promise<T | null>;
 

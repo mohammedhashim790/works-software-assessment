@@ -5,9 +5,12 @@ import {noteControllerRoutes} from "./controllers/note/note.controller";
 import {noteBookControllerRoutes} from "./controllers/notebook/notebook.controller";
 
 // Load Environment variables;
-require('dotenv').config({path: '../.env'});
+import bodyParser from "body-parser";
 
+require('dotenv').config({path: '../.env'});
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 const port = process.env.PORT || 3000;
 
 

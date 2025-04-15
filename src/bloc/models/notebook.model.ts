@@ -1,10 +1,10 @@
 import {ObjectId} from "mongodb";
 
 export interface NoteBook {
-    id?: ObjectId;
+    _id?: ObjectId;
     title: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 
