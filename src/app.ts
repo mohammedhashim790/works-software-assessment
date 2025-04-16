@@ -8,7 +8,7 @@ import {noteBookControllerRoutes} from "./controllers/notebook/notebook.controll
 import bodyParser from "body-parser";
 
 require('dotenv').config({path: '../.env'});
-const app = express();
+export const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 const port = process.env.PORT || 3000;

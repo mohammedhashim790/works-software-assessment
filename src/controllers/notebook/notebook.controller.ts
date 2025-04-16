@@ -4,6 +4,7 @@ import {ResponseStatus} from "../../bloc/utils/response-status";
 import {logError} from "../../bloc/utils/logger";
 import {NotebookRepository} from "../../services/notebook.repository";
 import {BadRequest} from "../../bloc/errors/BadRequest";
+import {ObjectId} from "mongodb";
 
 export const noteBookControllerRoutes = Router();
 
@@ -13,6 +14,19 @@ noteBookControllerRoutes.get('/', async (req, res) => {
         ResponseStatus.OK(res, noteBooks);
     } catch (err) {
         logError('Failed to list notebook', err);
+        ResponseStatus.INTERNAL_SERVER_ERROR(res, 'Failed to list notes', err);
+    }
+});
+
+noteBookControllerRoutes.get('/:id', async (req, res) => {
+    try {
+        if (!req.params.id) {
+            throw new BadRequest('Id is required');
+        }
+        const notes = await new NotebookRepository().get(new ObjectId(req.params.id));
+        ResponseStatus.OK(res, notes);
+    } catch (err) {
+        logError('Failed to list notes', err);
         ResponseStatus.INTERNAL_SERVER_ERROR(res, 'Failed to list notes', err);
     }
 });
@@ -34,7 +48,7 @@ noteBookControllerRoutes.post('/create', async (req, res) => {
     }
 });
 
-noteBookControllerRoutes.put('/delete/:id', async (req, res) => {
+noteBookControllerRoutes.delete('/delete/:id', async (req, res) => {
     try {
         if (!req.params.id) {
             throw new BadRequest('Id is required');
