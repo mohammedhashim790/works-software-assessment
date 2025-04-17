@@ -8,6 +8,12 @@ import {ObjectId} from "mongodb";
 
 export const noteBookControllerRoutes = Router();
 
+/**
+ * @route GET /notebook/
+ * @description Fetches list of all notebooks
+ * @returns {Note[]} 200 - An array of notebook objects
+ * @returns {string} 500 - Internal server error message
+ */
 noteBookControllerRoutes.get('/', async (req, res) => {
     try {
         const noteBooks = await new NotebookRepository().list();
@@ -18,6 +24,14 @@ noteBookControllerRoutes.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @route GET /notebook/:id
+ * @description Fetch a single notebook by its ObjectId
+ * @param {string} id - The ID of the notebook (MongoDB ObjectId)
+ * @returns {Note} 200 - The notebook object
+ * @returns {string} 400 - Bad request if ID is missing or invalid
+ * @returns {string} 500 - Internal server
+ */
 noteBookControllerRoutes.get('/:id', async (req, res) => {
     try {
         if (!req.params.id) {
@@ -31,6 +45,14 @@ noteBookControllerRoutes.get('/:id', async (req, res) => {
     }
 });
 
+/**
+ * @route POST /notes/create
+ * @description Create a new notebook
+ * @param {Note.model} req.body - Note object to create
+ * @returns {Note} 200 - Successfully created notebook
+ * @returns {string} 400 - Bad request if body is missing
+ * @returns {string} 500 - Internal server error
+ */
 noteBookControllerRoutes.post('/create', async (req, res) => {
     try {
         if (!req.body) {
@@ -48,6 +70,14 @@ noteBookControllerRoutes.post('/create', async (req, res) => {
     }
 });
 
+/**
+ * @route GET /notebook/delete/:id
+ * @description Delete a single notebook by its ObjectId
+ * @param {string} id - The ID of the notebook (MongoDB ObjectId)
+ * @returns {Note} 200 - boolean value denoting deletion status of the document.
+ * @returns {string} 400 - Bad request if ID is missing or invalid
+ * @returns {string} 500 - Internal server
+ */
 noteBookControllerRoutes.delete('/delete/:id', async (req, res) => {
     try {
         if (!req.params.id) {
@@ -65,6 +95,14 @@ noteBookControllerRoutes.delete('/delete/:id', async (req, res) => {
     }
 });
 
+/**
+ * @route POST /notebook/create
+ * @description Update an existing notebook
+ * @param {Note.model} req.body - Note object to update
+ * @returns {Note} 200 - Successfully updated notebook and returns the updated notebook
+ * @returns {string} 400 - Bad request if body is missing
+ * @returns {string} 500 - Internal server error
+ */
 noteBookControllerRoutes.post('/update', async (req, res) => {
     try {
         if (!req.body) {

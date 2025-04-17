@@ -7,6 +7,12 @@ import {ObjectId} from "mongodb";
 
 export const noteControllerRoutes = Router();
 
+/**
+ * @route GET /note/
+ * @description Fetches list of all notes
+ * @returns {Note[]} 200 - An array of note objects
+ * @returns {string} 500 - Internal server error message
+ */
 noteControllerRoutes.get('/', async (req, res) => {
     try {
         const notes = await new NoteRepository().list();
@@ -17,6 +23,14 @@ noteControllerRoutes.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @route GET /note/:id
+ * @description Fetch a single note by its ObjectId
+ * @param {string} id - The ID of the note (MongoDB ObjectId)
+ * @returns {Note} 200 - The note object
+ * @returns {string} 400 - Bad request if ID is missing or invalid
+ * @returns {string} 500 - Internal server
+*/
 noteControllerRoutes.get('/:id', async (req, res) => {
     try {
         if (!req.params.id) {
@@ -31,6 +45,14 @@ noteControllerRoutes.get('/:id', async (req, res) => {
 });
 
 
+/**
+ * @route POST /note/create
+ * @description Create a new note
+ * @param {Note.model} req.body - Note object to create
+ * @returns {Note} 200 - Successfully created note
+ * @returns {string} 400 - Bad request if body is missing
+ * @returns {string} 500 - Internal server error
+ */
 noteControllerRoutes.post('/create', async (req, res) => {
     try {
         if (!req.body) {
@@ -48,6 +70,14 @@ noteControllerRoutes.post('/create', async (req, res) => {
     }
 });
 
+/**
+ * @route GET /note/delete/:id
+ * @description Delete a single note by its ObjectId
+ * @param {string} id - The ID of the note (MongoDB ObjectId)
+ * @returns {Note} 200 - boolean value denoting deletion status of the document.
+ * @returns {string} 400 - Bad request if ID is missing or invalid
+ * @returns {string} 500 - Internal server
+ */
 noteControllerRoutes.delete('/delete/:id', async (req, res) => {
     try {
         if (!req.params.id) {
@@ -65,6 +95,14 @@ noteControllerRoutes.delete('/delete/:id', async (req, res) => {
     }
 });
 
+/**
+ * @route POST /note/create
+ * @description Update an existing note
+ * @param {Note.model} req.body - Note object to update
+ * @returns {Note} 200 - Successfully updated note and returns the updated note
+ * @returns {string} 400 - Bad request if body is missing
+ * @returns {string} 500 - Internal server error
+ */
 noteControllerRoutes.post('/update', async (req, res) => {
     try {
         if (!req.body) {
